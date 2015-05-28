@@ -1,0 +1,25 @@
+{
+  "name": "leptonic",
+  "version": "0.0.1",
+  "description": "Schematics editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark K Cowan, mark@battlesnake.co.uk",
+  "license": "GPL3",
+  "dependencies": {
+    "bs-patterns": "file:../patterns",
+    "font-awesome": "^4.3.0",
+    "interact.js": "^1.2.4",
+    "jquery": "^2.1.4",
+    "lodash": "^3.9.3"
+  },
+  "devDependencies": {
+    "battlemake": "file:../battlemake",
+    "gulp": "^3.8.11",
+    "gulp-consolidate": "^0.1.2",
+    "gulp-iconfont": "^1.0.1",
+    "gulp-rename": "^1.2.2"
+  }
+}

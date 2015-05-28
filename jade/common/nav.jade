@@ -1,0 +1,11 @@
+nav.cols#navbar
+
+	a.logo
+		img(alt='Leptonic', src='logo.png')
+
+	ul.cols.links
+
+		each link in navlinks
+			li.fixed.link(class=(page.name==link.name) ? 'active' : '')
+				a(href=link.url)
+					= link.name

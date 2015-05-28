@@ -1,0 +1,45 @@
+extends common/layout
+
+block main
+
+	.rows.nowrap.full-height
+
+		ul.fixed.cols.toolbar#top-toolbar
+			li
+				a.tb.tb-box
+			li
+				a.tb.tb-circle
+			li
+				a.tb.tb-corners
+
+		.cols.nowrap.fluid
+
+			ul.fixed.rows.toolbar#left-toolbar
+				li
+					a la
+				li
+					a lb
+
+			#editor-size-limiter.relative.no-scroll.grow.shrink
+				#editor-container.scroll.fill-offset-parent
+					svg#editor(viewBox='0 0 297 210', width='594px', height='420px')
+						text(x='0', y='0') Stuff goes here
+
+			ul.fixed.rows.toolbar#right-toolbar
+				li
+					a ra
+				li
+					a rb
+
+		ul.fixed.cols.toolbar#bottom-toolbar
+			li
+				a ba
+			li
+				a bb
+
+
+block footer
+	span Leptonic
+	span.fluid Schematics editor
+	span Mark K Cowan
+	span mark@battlesnake.co.uk

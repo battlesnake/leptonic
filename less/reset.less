@@ -1,0 +1,88 @@
+@background: white;
+@foreground: #444;
+@link-foreground: #666;
+
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: @background;
+	color: @foreground;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+	font-size: 1.4rem;
+	line-height: 1.4;
+}
+
+nav,header,footer,main,section,article,div,span,h1,h2,h3,h4,h5,h6,a,em,strong,small,blockquote {
+	margin: 0;
+	padding: 0;
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	text-decoration: inherit;
+	line-height: inherit;
+	text-transform: inherit;
+	text-indent: inherit;
+}
+
+p,h1,h2,h3,h4,h5,h6 {
+	margin: 1em 0 1em;
+}
+
+h1 {
+	font-size: 1.5rem;
+}
+
+h2 {
+	font-size: 1.3rem;
+}
+
+h3 {
+	font-size: 1.1rem;
+}
+
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: bold;
+}
+
+small {
+	font-size: 0.7em;
+}
+
+blockquote {
+	margin: 1em 2em 1em;
+}
+
+code,pre {
+	white-space: pre;
+	font-family: monospace;
+}
+
+pre {
+	font-size: 14px;
+	line-height: 16px;
+}
+
+a {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	color: @link-foreground;
+
+	&:hover {
+		color: @foreground;
+	}
+}

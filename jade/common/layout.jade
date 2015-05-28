@@ -1,0 +1,37 @@
+doctype html
+
+html(lang='en').full-height.full-width.no-scroll
+
+	head
+
+		meta(charset='utf-8')
+
+		title= page.title
+
+		meta(name='author', content='Mark K Cowan, mark@battlesnake.co.uk, hackology.co.uk')
+		meta(name='generator', content='vim')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+
+		include seo
+		include social
+
+		block head
+
+		link(rel='stylesheet', type='text/css', href='fonts.css')
+		link(rel='stylesheet', type='text/css', href='symbols.css')
+		link(rel='stylesheet', type='text/css', href='style.css')
+
+	body.rows.nowrap.stretch-items.full-height.full-width.no-scroll
+
+		header#header.fixed
+			include nav
+			block header
+
+		script(type='text/javascript', src='vendor.js')
+		script(type='text/javascript', src='client.js')
+
+		#main.fluid.relative
+			block main
+
+		footer#footer.fixed.cols.nowrap
+			block footer

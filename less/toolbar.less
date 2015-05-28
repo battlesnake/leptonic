@@ -1,0 +1,99 @@
+@import 'reset';
+
+@toolbar-padding: 2px;
+@toolbar-border-width: 1px;
+@toolbar-border: @toolbar-border-width solid @foreground;
+@toolbar-background: #aaa;
+
+@toolbutton-size: 32px;
+@toolbutton-margin: 2px;
+@toolbutton-font-size: ((@toolbutton-size - 8px));
+
+@toolbutton-foreground: #ddd;
+@toolbutton-background: #444;
+@toolbutton-border: 1px solid #ccc;
+@toolbutton-padding: 4px;
+
+@toolbutton-hover-foreground: #eee;
+@toolbutton-hover-background: #666;
+@toolbutton-hover-border: 1px solid #eee;
+@toolbutton-hover-padding: 4px;
+
+@toolbutton-down-foreground: #aaa;
+@toolbutton-down-background: #eee;
+@toolbutton-down-border: 1px solid #ccc;
+@toolbutton-down-padding: 5px 3px 3px 5px;
+
+@toolbar-size: ((@toolbutton-size + 2 * (@toolbar-padding + @toolbar-border-width)));
+
+.toolbar {
+	z-index: 1000;
+	margin: 0;
+	padding: @toolbar-padding;
+	overflow: visible;
+	flex: 0 0 auto;
+	background: @toolbar-background;
+
+	.rows {
+		overflow-y: auto;
+		border-left: @toolbar-border;
+		border-right: @toolbar-border;
+
+		&>* {
+			width: @toolbutton-size;
+		}
+	}
+
+	.cols {
+		overflow-x: auto;
+		border-top: @toolbar-border;
+		border-bottom: @toolbar-border;
+
+		&>* {
+			height: @toolbutton-size;
+		}
+	}
+
+	&>* {
+		min-width: @toolbutton-size;
+		min-height: @toolbutton-size;
+		flex: 0 0 @toolbutton-size;
+		background: @toolbutton-background;
+		color: @toolbutton-foreground;
+		border: @toolbutton-border;
+		margin: @toolbutton-margin;
+		padding: @toolbutton-padding;
+		cursor: pointer;
+		position: relative;
+
+		&:hover {
+			background: @toolbutton-hover-background;
+			color: @toolbutton-hover-foreground;
+			border: @toolbutton-hover-border;
+			padding: @toolbutton-hover-padding;
+		}
+
+		&:active {
+			background: @toolbutton-down-background;
+			color: @toolbutton-down-foreground;
+			border: @toolbutton-down-border;
+			padding: @toolbutton-down-padding;
+		}
+
+		&>a {
+			cursor: pointer;
+			position: absolute;
+			top: 50%;
+			left: 0;
+			right: 0;
+			text-align: center;
+			margin-top: ((-@toolbutton-font-size / 2));
+			font-size: ((@toolbutton-font-size));
+			line-height: 1;
+
+			&:hover {
+				color: inherit;
+			}
+		}
+	}
+}
