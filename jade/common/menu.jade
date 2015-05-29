@@ -1,0 +1,8 @@
+mixin menu(items)
+	ul.menu&attributes(attributes)
+		each item in items
+			li.fixed.menu-item(data-name=item.name)
+				a= item.title
+				if item.items
+					.submenu
+						+menu(item.items).rows

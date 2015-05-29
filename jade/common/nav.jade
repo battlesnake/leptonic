@@ -1,12 +1,5 @@
-mixin menu(items)
-	ul.menu(class=attributes.class)
-		each item in items
-			li.fixed.menu-item(class=(page.name==item.name) ? 'active' : '', onclick='menuClick("' + item.name + '")')
-				= item.title
-				if item.items
-					.submenu
-						+menu(item.items).rows
+include menu
 
 nav.cols#navbar
 
-	+menu(menu).cols
+	+menu(menu).cols#main-menu

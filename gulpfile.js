@@ -22,11 +22,17 @@ var config = module.exports = {
 	},
 	globs: {
 		js: ['./js/index.js'],
+		jsClientDeps: ['js/*.js', 'js/**/*.js'],
 		less: ['less/index.less'],
 		lessDeps: ['less/**/*.less'],
 		jade: ['jade/*.jade'],
 		jadeDeps: ['jade/**/*.jade'],
-		npmAssets: ['./@(bower_components|node_modules)/**/*.@(png|jpg|jpeg|gif|woff|woff2|eot|ttf|otf|svg)']
+		npmAssets: [
+			'@(bower_components|node_modules)/**/*.@(png|jpg|jpeg|gif|woff|woff2|eot|ttf|otf|svg)',
+		],
+		npmAssetsExclude: [
+			'**/@(tests|test|docs|doc)/**'
+		]
 	},
 	base64: {
 		enabled: true,

@@ -1,15 +1,6 @@
 extends common/layout
 
-mixin toolbar(toolbar)
-	ul.fixed.toolbar(class=attributes.class, id=attributes.id)
-		each button in toolbar.buttons
-			li.toolbutton
-				if button.hotkey
-					code.hotkey= button.hotkey
-				if button.icon
-					a(class='icon ls ls-' + button.icon)
-				if button.text
-					a.label= button.text
+include common/toolbar
 
 block main
 

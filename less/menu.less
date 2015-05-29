@@ -1,23 +1,22 @@
 @menu-item-background: linear-gradient(to bottom, #666, #444);
 @menu-item-foreground: #eee;
-@menu-item-hover-background: linear-gradient(to bottom, #999, #444);
-@menu-item-hover-foreground: #ddd;
-@menu-item-active-background: linear-gradient(to bottom, #ddd, #666);
-@menu-item-active-foreground: #444;
+@menu-item-highlight-background: linear-gradient(to bottom, #999, #444);
+@menu-item-highlight-foreground: #ddd;
+@menu-item-show-submenu-background: linear-gradient(to bottom, #999, #666);
 
 @submenu-background: linear-gradient(to bottom, #666, #444);
 @submenu-foreground: #eee;
-@submenu-item-hover-background: #777;
-@submenu-item-hover-foreground: #ddd;
-@submenu-item-active-background: #ddd;
-@submenu-item-active-foreground: #444;
+@submenu-item-highlight-background: #ddd;
+@submenu-item-highlight-foreground: #444;
 
 @submenu-padding: 20px;
+
+@menu-z-index: 900;
 
 .menu {
 	align-self: stretch;
 	overflow: visible;
-	z-index: 900;
+	z-index: @menu-z-index;
 
 	&>.menu-item {
 		display: block;
@@ -29,34 +28,33 @@
 		cursor: pointer;
 		white-space: nowrap;
 
-		&.active {
-			&, &:hover {
-				background: @menu-item-active-background;
-			}
-			color: @menu-item-active-foreground;
+		&.highlight {
+			background: @menu-item-highlight-background;
+			color: @menu-item-highlight-foreground;
 		}
 
-		&:hover {
-			background: @menu-item-hover-background;
-			color: @menu-item-hover-foreground;
+		&.show-submenu {
+			background: @menu-item-show-submenu-background;
 			&>.submenu {
 				display: block;
 			}
 		}
 	}
 
-	.submenu {
-		position: absolute;
+	&.cols>.menu-item>.submenu {
 		left: -@submenu-padding;
 		top: calc(100% ~"-" @submenu-padding);
 	}
 }
 
 .submenu {
+	position: absolute;
 	display: none;
-	z-index: 900;
+	z-index: @menu-z-index;;
 	background: transparent;
 	padding: @submenu-padding;
+	left: calc(100% ~"-" @submenu-padding);
+	top: -@submenu-padding;
 
 	&>.menu {
 		background: @submenu-background;
@@ -65,24 +63,25 @@
 		&>.menu-item {
 			padding-right: 2em;
 
-			&.active {
-				&, &:hover {
-					background: @submenu-item-active-background;
-				}
-				color: @submenu-item-active-foreground;
-			}
-
-			&:hover {
-				background: @submenu-item-hover-background;
-				color: @submenu-item-hover-foreground;
+			&.highlight {
+				background: @submenu-item-highlight-background;
+				color: @submenu-item-highlight-foreground;
 			}
 		}
 	}
 }
 
-.submenu .submenu {
-	left: calc(100% ~"-" @submenu-padding);
-	top: -@submenu-padding;
+#menu-input-blocker {
+	position: absolute;
+	display: none;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: ((@menu-z-index - 1));
+	background: rgba(0,0,0,0);
+
+	&.active {
+		display: block;
+	}
 }
-
-
