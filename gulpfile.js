@@ -1,11 +1,7 @@
 'use strict';
 
-var navlinks = [
-	{ title: 'Leptonic', name: 'home', url: '/' }
-];
-var page = navlinks[0];
-
 var gulp = require('gulp');
+var watch = require('gulp-watch');
 var _ = require('lodash');
 
 var dependencies = _.assign({},
@@ -14,7 +10,7 @@ var dependencies = _.assign({},
 );
 
 var config = module.exports = {
-	extraTasks: ['symbols'],
+	extraTasks: ['symbols', 'images'],
 	paths: {
 		out: 'out'
 	},
@@ -27,7 +23,9 @@ var config = module.exports = {
 	globs: {
 		js: ['./js/index.js'],
 		less: ['less/index.less'],
-		jade: ['jade/pages/*.jade'],
+		lessDeps: ['less/**/*.less'],
+		jade: ['jade/*.jade'],
+		jadeDeps: ['jade/**/*.jade'],
 		npmAssets: ['./@(bower_components|node_modules)/**/*.@(png|jpg|jpeg|gif|woff|woff2|eot|ttf|otf|svg)']
 	},
 	base64: {
@@ -41,26 +39,30 @@ var config = module.exports = {
 	test: {
 		port: 3000
 	},
-	jadeContext: { page: page, navlinks: navlinks }
+	jadeContext: getPageData
 };
 
 var battlemake = require('battlemake')(config);
+
+/* Symbol fonts */
 
 var iconFont = require('gulp-iconfont');
 var consolidate = require('gulp-consolidate');
 var rename = require('gulp-rename');
 
-gulp.task('symbols', buildSymbols);
+gulp.task('symbols', symbolsTask);
 
-function buildSymbols() {
+var symbolsWatcher;
+function symbolsTask() {
+	symbolsWatcher = symbolsWatcher || watch('symbols/**/*.svg', ['symbols']);
 	var opts = {
-		fontName: 'leptonic-toolbar',
+		fontName: 'leptonic-symbols',
 		normalize: true,
-		fixedWidth: true,
-		centerHorizontally: true,
+//		fixedWidth: true,
+//		centerHorizontally: true,
 		descent: 0
 	};
-	return gulp.src('symbols/toolbar/*.svg')
+	return gulp.src('symbols/**/*.svg')
 		.pipe(iconFont(opts))
 		.on('codepoints', onCodepoints)
 		.pipe(gulp.dest(config.paths.out));
@@ -71,9 +73,35 @@ function buildSymbols() {
 				glyphs: codepoints,
 				fontName: opts.fontName,
 				fontPath: '',
-				className: 'tb'
+				className: 'ls'
 			}))
 			.pipe(rename('symbols.css'))
 			.pipe(gulp.dest(config.paths.out));
 	}
+}
+
+/* Jade */
+
+var path = require('path');
+
+function getPageData(file) {
+	var name = path.basename(file.path).replace(/\.jade$/i, '');
+	/* Reload data */
+	delete require.cache[require.resolve('./data')];
+	var pageData = require('./data');
+	var data = pageData({ name: name });
+	if (!data) {
+		console.error('Failed to get view data for page "' + name + '" (' + file.path + ')');
+	}
+	return data || {};
+}
+
+/* Images */
+
+gulp.task('images', imagesTask);
+
+function imagesTask() {
+	return gulp.src('images/*', { buffer: false })
+		.pipe(gulp.dest(config.paths.out))
+		;
 }

@@ -2,67 +2,75 @@
 
 @toolbar-padding: 2px;
 @toolbar-border-width: 1px;
-@toolbar-border: @toolbar-border-width solid @foreground;
+@toolbar-border: @toolbar-border-width solid #999;
 @toolbar-background: #aaa;
+@toolbar-background-horizontal: linear-gradient(to bottom, #aaa, #999);
+@toolbar-background-vertical: linear-gradient(to right, #aaa, #999);
 
 @toolbutton-size: 32px;
 @toolbutton-margin: 2px;
-@toolbutton-font-size: ((@toolbutton-size - 8px));
+@toolbutton-border-size: 1px;
+
+@toolbutton-icon-size: ((@toolbutton-size - 12px));
+@toolbutton-label-size: inherit;
+@toolbutton-hotkey-size: 14px;
 
 @toolbutton-foreground: #ddd;
-@toolbutton-background: #444;
-@toolbutton-border: 1px solid #ccc;
-@toolbutton-padding: 4px;
+@toolbutton-background: linear-gradient(to bottom, #666, #444);
+@toolbutton-border: @toolbutton-border-size solid #666;
 
 @toolbutton-hover-foreground: #eee;
-@toolbutton-hover-background: #666;
-@toolbutton-hover-border: 1px solid #eee;
-@toolbutton-hover-padding: 4px;
+@toolbutton-hover-background: linear-gradient(to bottom, #888, #666);
+@toolbutton-hover-border: @toolbutton-border-size solid #999;
 
-@toolbutton-down-foreground: #aaa;
-@toolbutton-down-background: #eee;
-@toolbutton-down-border: 1px solid #ccc;
-@toolbutton-down-padding: 5px 3px 3px 5px;
+@toolbutton-down-foreground: #444;
+@toolbutton-down-background: linear-gradient(to bottom, #ccc, #999);
+@toolbutton-down-border: @toolbutton-border-size solid #666;
 
 @toolbar-size: ((@toolbutton-size + 2 * (@toolbar-padding + @toolbar-border-width)));
+@toolbutton-inner-size: ((@toolbutton-size - 2 * @toolbutton-border-size));
+@toolbutton-icon-offset: (((@toolbutton-inner-size - @toolbutton-icon-size) / 2));
+@toolbutton-hotkey-offset: (((@toolbutton-inner-size - @toolbutton-hotkey-size) / 2));
 
-.toolbar {
-	z-index: 1000;
+ul.toolbar, ol.toolbar {
+	z-index: 300;
 	margin: 0;
-	padding: @toolbar-padding;
 	overflow: visible;
 	flex: 0 0 auto;
+	border: 1px solid transparent;
 	background: @toolbar-background;
+	padding: @toolbar-padding;
 
-	.rows {
+	&.rows {
 		overflow-y: auto;
 		border-left: @toolbar-border;
 		border-right: @toolbar-border;
+		background: @toolbar-background-vertical;
 
-		&>* {
+		&>.toolbutton {
 			width: @toolbutton-size;
 		}
 	}
 
-	.cols {
+	&.cols {
 		overflow-x: auto;
 		border-top: @toolbar-border;
 		border-bottom: @toolbar-border;
+		background: @toolbar-background-horizontal;
 
-		&>* {
+		&>.boolbutton {
 			height: @toolbutton-size;
 		}
 	}
 
-	&>* {
+	&>.toolbutton {
 		min-width: @toolbutton-size;
 		min-height: @toolbutton-size;
-		flex: 0 0 @toolbutton-size;
+		flex: 0 0 auto;
 		background: @toolbutton-background;
 		color: @toolbutton-foreground;
 		border: @toolbutton-border;
 		margin: @toolbutton-margin;
-		padding: @toolbutton-padding;
 		cursor: pointer;
 		position: relative;
 
@@ -70,30 +78,72 @@
 			background: @toolbutton-hover-background;
 			color: @toolbutton-hover-foreground;
 			border: @toolbutton-hover-border;
-			padding: @toolbutton-hover-padding;
 		}
 
 		&:active {
 			background: @toolbutton-down-background;
 			color: @toolbutton-down-foreground;
 			border: @toolbutton-down-border;
-			padding: @toolbutton-down-padding;
-		}
-
-		&>a {
-			cursor: pointer;
-			position: absolute;
-			top: 50%;
-			left: 0;
-			right: 0;
-			text-align: center;
-			margin-top: ((-@toolbutton-font-size / 2));
-			font-size: ((@toolbutton-font-size));
-			line-height: 1;
-
-			&:hover {
-				color: inherit;
-			}
 		}
 	}
+
+	.icon {
+		display: inline-block;
+		padding-top: @toolbutton-icon-offset;
+		padding-left: @toolbutton-icon-offset;
+		width: @toolbutton-inner-size;
+		height: @toolbutton-inner-size;
+		font-size: ((@toolbutton-icon-size));
+		line-height: 1;
+
+		&:hover {
+			color: inherit;
+		}
+	}
+
+	.hotkey {
+		font-family: 'Share Tech Mono', monospace;
+		white-space: pre;
+		font-size: @toolbutton-hotkey-size;	
+		line-height: 1;
+		padding: 0;
+	}
+
+	&.rows .hotkey {
+		display: inline-block;
+		width: @toolbutton-inner-size;
+		text-align: center;
+		margin: 4px 0;
+	}
+
+	&.cols .hotkey {
+		display: block;
+		float: left;
+		height: @toolbutton-inner-size;
+		padding-top: @toolbutton-hotkey-offset;
+		margin: 0 4px;
+	}
+
+	.label {
+		font-size: @toolbutton-label-size;
+		line-height: 1;
+		padding: 4px;
+	}
+
+}
+
+.hide-toolbar-hotkeys .toolbar .toolbutton .hotkey {
+	display: none;
+}
+
+.hide-toolbar-icons .toolbar .toolbutton .icon {
+	display: none;
+}
+
+.hide-all-toolbar-labels .toolbar .toolbutton .label {
+	display: none;
+}
+
+.hide-toolbar-labels .toolbar .toolbutton .icon+.label {
+	display: none;
 }

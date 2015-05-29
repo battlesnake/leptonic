@@ -1,14 +1,3 @@
-@nav-background: black;
-@nav-foreground: white;
-@nav-active-background: blue;
-@nav-active-foreground: yellow;
-
-@footer-border: 1px solid #ccc;
-@footer-background: #eee;
-@footer-item-border: 1px solid #ccc;
-@footer-item-background: inherit;
-@footer-item-foreground: inherit;
-
 .fill-offset-parent {
 	position: absolute;
 	left: 0;
@@ -129,47 +118,13 @@
 /* List menus */
 ul,ol {
 	&.rows, &.cols {
+		margin: 0;
+		padding: 0;
 		list-style-type: none;
 	}
 
 	&>li>a {
 		text-decoration: none;
 		color: inherit;
-	}
-}
-
-#navbar {
-	background: @nav-background;
-	color: @nav-foreground;
-
-	.logo {
-		display: block;
-	}
-
-	.links {
-
-		.link {
-			display: block;
-			padding: 0 0;
-
-			.active {
-				background: @nav-active-background;
-				color: @nav-active-foreground;
-			}
-		}
-	}
-
-}
-
-#footer {
-	background: @footer-background;
-	border: @footer-border;
-
-	&>* {
-		margin: 2px;
-		padding: 1px 2px;
-		border: @footer-item-border;
-		background: @footer-item-background;
-		color: @footer-item-foreground;
 	}
 }

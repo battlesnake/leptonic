@@ -1,0 +1,18 @@
+@footer-border: 1px solid #ccc;
+@footer-background: #eee;
+@footer-item-border: 1px solid #ccc;
+@footer-item-background: inherit;
+@footer-item-foreground: inherit;
+
+#footer {
+	background: @footer-background;
+	border: @footer-border;
+
+	&>* {
+		margin: 2px;
+		padding: 1px 2px;
+		border: @footer-item-border;
+		background: @footer-item-background;
+		color: @footer-item-foreground;
+	}
+}

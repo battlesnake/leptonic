@@ -1,42 +1,38 @@
 extends common/layout
 
+mixin toolbar(toolbar)
+	ul.fixed.toolbar(class=attributes.class, id=attributes.id)
+		each button in toolbar.buttons
+			li.toolbutton
+				if button.hotkey
+					code.hotkey= button.hotkey
+				if button.icon
+					a(class='icon ls ls-' + button.icon)
+				if button.text
+					a.label= button.text
+
 block main
 
-	.rows.nowrap.full-height
+	.rows.nowrap.full-height.hide-toolbar-labels.hide-toolbar-hotkeys
 
-		ul.fixed.cols.toolbar#top-toolbar
-			li
-				a.tb.tb-box
-			li
-				a.tb.tb-circle
-			li
-				a.tb.tb-corners
+		+toolbar(data.toolbars.top).cols#top-toolbar
 
 		.cols.nowrap.fluid
 
-			ul.fixed.rows.toolbar#left-toolbar
+			+toolbar(data.toolbars.left).rows#left-toolbar
 				li
-					a la
+					a.ls.ls-plus
 				li
-					a lb
+					a.ls.ls-minus
 
 			#editor-size-limiter.relative.no-scroll.grow.shrink
 				#editor-container.scroll.fill-offset-parent
 					svg#editor(viewBox='0 0 297 210', width='594px', height='420px')
 						text(x='0', y='0') Stuff goes here
 
-			ul.fixed.rows.toolbar#right-toolbar
-				li
-					a ra
-				li
-					a rb
+			+toolbar(data.toolbars.right).rows#right-toolbar
 
-		ul.fixed.cols.toolbar#bottom-toolbar
-			li
-				a ba
-			li
-				a bb
-
+		+toolbar(data.toolbars.bottom).cols#bottom-toolbar
 
 block footer
 	span Leptonic

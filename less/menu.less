@@ -1,0 +1,88 @@
+@menu-item-background: linear-gradient(to bottom, #666, #444);
+@menu-item-foreground: #eee;
+@menu-item-hover-background: linear-gradient(to bottom, #999, #444);
+@menu-item-hover-foreground: #ddd;
+@menu-item-active-background: linear-gradient(to bottom, #ddd, #666);
+@menu-item-active-foreground: #444;
+
+@submenu-background: linear-gradient(to bottom, #666, #444);
+@submenu-foreground: #eee;
+@submenu-item-hover-background: #777;
+@submenu-item-hover-foreground: #ddd;
+@submenu-item-active-background: #ddd;
+@submenu-item-active-foreground: #444;
+
+@submenu-padding: 20px;
+
+.menu {
+	align-self: stretch;
+	overflow: visible;
+	z-index: 900;
+
+	&>.menu-item {
+		display: block;
+		position: relative;
+		text-transform: uppercase;
+		font-weight: 600;
+		overflow: visible;
+		padding: 1em 1.5em 1em;
+		cursor: pointer;
+		white-space: nowrap;
+
+		&.active {
+			&, &:hover {
+				background: @menu-item-active-background;
+			}
+			color: @menu-item-active-foreground;
+		}
+
+		&:hover {
+			background: @menu-item-hover-background;
+			color: @menu-item-hover-foreground;
+			&>.submenu {
+				display: block;
+			}
+		}
+	}
+
+	.submenu {
+		position: absolute;
+		left: -@submenu-padding;
+		top: calc(100% ~"-" @submenu-padding);
+	}
+}
+
+.submenu {
+	display: none;
+	z-index: 900;
+	background: transparent;
+	padding: @submenu-padding;
+
+	&>.menu {
+		background: @submenu-background;
+		color: @submenu-foreground;
+		
+		&>.menu-item {
+			padding-right: 2em;
+
+			&.active {
+				&, &:hover {
+					background: @submenu-item-active-background;
+				}
+				color: @submenu-item-active-foreground;
+			}
+
+			&:hover {
+				background: @submenu-item-hover-background;
+				color: @submenu-item-hover-foreground;
+			}
+		}
+	}
+}
+
+.submenu .submenu {
+	left: calc(100% ~"-" @submenu-padding);
+	top: -@submenu-padding;
+}
+
+
