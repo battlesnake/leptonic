@@ -1,0 +1,10 @@
+shell:
+
+	npm install
+	rm -r node_modules/gulp
+	ln -s node_modules/battlemake/node_modules/gulp node_modules/
+	gulp
+
+browser:
+
+	http://localhost:3000/editor.html
