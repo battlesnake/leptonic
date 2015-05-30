@@ -4,6 +4,8 @@ var dom = require('./dom');
 
 module.exports = Menu;
 
+var hoverOptions = { enterDelay: 150, leaveDelay: NaN };
+
 function Menu(element, onSelect) {
 	var self = {};
 
@@ -33,7 +35,7 @@ function MenuItem(element, onSelect) {
 
 	input.onTap(element, onTap);
 	input.onEnterLeave(element, onEnterLeave);
-	input.onDelayedHover(element, { enterDelay: 400, leaveDelay: 800 }, onHover);
+	input.onDelayedHover(element, hoverOptions, onHover);
 
 	function onEnterLeave(event, over) {
 		element.classList.toggle('highlight', over);

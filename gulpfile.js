@@ -26,7 +26,7 @@ var config = module.exports = {
 		less: ['less/index.less'],
 		lessDeps: ['less/**/*.less'],
 		jade: ['jade/*.jade'],
-		jadeDeps: ['jade/**/*.jade'],
+		jadeDeps: ['jade/**/*.jade', 'data/**/*.js'],
 		npmAssets: [
 			'@(bower_components|node_modules)/**/*.@(png|jpg|jpeg|gif|woff|woff2|eot|ttf|otf|svg)',
 		],

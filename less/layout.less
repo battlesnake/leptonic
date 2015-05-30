@@ -68,7 +68,10 @@
 
 .cols, .rows {
 	display: flex;
-	flex-wrap: wrap;
+
+	&, &.wrap {
+		flex-wrap: wrap;
+	}
 
 	&.nowrap {
 		flex-wrap: nowrap;

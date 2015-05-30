@@ -5,6 +5,6 @@ mixin toolbar(toolbar)
 				if button.hotkey
 					code.hotkey= button.hotkey
 				if button.icon
-					a(class='icon ls ls-' + button.icon)
-				if button.text
-					a.label= button.text
+					a.icon(class='icon ls ls-' + button.icon)
+				if button.caption
+					a.caption= button.caption

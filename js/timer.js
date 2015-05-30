@@ -26,7 +26,9 @@ function Timer(interval, options, callback) {
 			return;
 		}
 		abort();
-		timer = setTimeout(onTimer, interval);
+		if (typeof interval === 'number' && interval >= 0) {
+			timer = setTimeout(onTimer, interval);
+		}
 	}
 
 	function abort() {

@@ -8,14 +8,13 @@ var buttons = [
 	{ name: 'box', icon: 'box', hotkey: 'b' },
 	{ name: 'circle', icon: 'circle', hotkey: 'c' },
 	{ name: 'corners', icon: 'corners', hotkey: 'x' },
-	{ name: 'r1', icon: null, text: 'Right #1' },
-	{ name: 'r2', icon: null, text: 'Right #2' },
-	{ name: 'r3', icon: null, text: 'Right #3' },
-	{ name: 'b1', icon: null, text: 'Bottom #1' },
-	{ name: 'b2', icon: null, text: 'Bottom #2' },
-	{ name: 'b3', icon: null, text: 'Bottom #3' }
+	{ name: 'r1', icon: null, caption: 'Right #1' },
+	{ name: 'r2', icon: null, caption: 'Right #2' },
+	{ name: 'r3', icon: null, caption: 'Right #3' },
+	{ name: 'b1', icon: null, caption: 'Bottom #1' },
+	{ name: 'b2', icon: null, caption: 'Bottom #2' },
+	{ name: 'b3', icon: null, caption: 'Bottom #3' }
 ];
-var buttonsObj = _.indexBy(buttons, 'name');
 
 var toolbars = [
 	{ name: 'top', buttons: ['insert-mode', 'delete-mode'] },
@@ -27,15 +26,43 @@ var toolbarsObj = _(toolbars)
 	.map(function (toolbar) {
 		return {
 			name: toolbar.name,
-			buttons: toolbar.buttons.map(function (name) {
-				return buttonsObj[name];
-			})
+			buttons: getButtons(buttons, toolbar.buttons)
 		};
 	})
 	.indexBy('name')
 	.value();
 
+function getToolbar(toolbar) {
+	return {
+		name: toolbar.name,
+		buttons: getButtons(buttons, toolbar.buttons)
+	};
+}
+
+function getToolbars(toolbars) {
+	return _(toolbars)
+		.map(getToolbar)
+		.indexBy('name')
+		.value();
+}
+
+function getButton(buttons, name) {
+	var button = _.find(buttons, { name: name });
+	if (!button) {
+		throw new Error('Failed to find toolbar button "' + name + '"');
+	}
+	return button;
+}
+
+function getButtons(buttons, names) {
+	return names.map(function (buttonName) {
+		return getButton(buttons, buttonName);
+	});
+}
+
 module.exports = {
-	buttons: buttonsObj,
-	toolbars: toolbarsObj
+	buttons: buttons,
+	toolbars: toolbars,
+	getButtons: getButtons,
+	getToolbars: getToolbars
 };

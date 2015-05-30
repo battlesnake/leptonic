@@ -1,25 +1,27 @@
 'use strict';
 
 module.exports = [
-	{ title: 'File', name: 'file', items: [
-		{ title: 'New', name: 'new' },
-		{ title: 'Open...', name: 'open' },
-		{ title: 'Save', name: 'save' },
-		{ title: 'Save As...', name: 'saveAs' }
+	{ caption: 'File', name: 'file', items: [
+		{ caption: 'New', name: 'new' },
+		{ caption: 'Open...', name: 'open' },
+		{ caption: 'Save', name: 'save' },
+		{ caption: 'Save As...', name: 'saveAs' }
 	]},
-	{ title: 'Edit', name: 'edit', items: [
-		{ title: 'Undo', name: 'undo' },
-		{ title: 'Redo', name: 'redo' },
-		{ title: 'Cut', name: 'cut' },
-		{ title: 'Copy', name: 'copy' },
-		{ title: 'Paste', name: 'paste' }
+	{ caption: 'Edit', name: 'edit', items: [
+		{ caption: 'Undo', name: 'undo' },
+		{ caption: 'Redo', name: 'redo' },
+		{ caption: 'Cut', name: 'cut' },
+		{ caption: 'Copy', name: 'copy' },
+		{ caption: 'Paste', name: 'paste' }
 	] },
-	{ title: 'Test 1', name: 't1', items: [
-		{ title: 'Test 2', name: 't2', items: [
-			{ title: 'Test 3', name: 't3' }
+	{ caption: 'Tests', name: 't', items: [
+		{ icon: 'box', caption: 'Horizontal submenu', name: 't1', direction: 'horizontal', items: [
+			{ caption: 'Test 1-A', name: 't1a' },
+			{ caption: 'Test 1-B', name: 't1b' }
 		]},
-		{ title: 'Test 4', name: 't4', items: [
-			{ title: 'Test 5', name: 't5' }
+		{ icon: 'circle', caption: 'Vertical submenu', name: 't2', items: [
+			{ caption: 'Test 2-A', name: 't2a' },
+			{ caption: 'Test 2-B', name: 't2b' }
 		]},
 	]}
 ];

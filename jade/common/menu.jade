@@ -2,7 +2,10 @@ mixin menu(items)
 	ul.menu&attributes(attributes)
 		each item in items
 			li.fixed.menu-item(data-name=item.name)
-				a= item.title
+				if item.icon
+					a(class='icon ls ls-' + item.icon)
+				if item.caption
+					a.caption= item.caption
 				if item.items
 					.submenu
-						+menu(item.items).rows
+						+menu(item.items)(class=item.direction==='horizontal'?'cols':'rows')

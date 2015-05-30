@@ -8,15 +8,24 @@
 @submenu-foreground: #eee;
 @submenu-item-highlight-background: #ddd;
 @submenu-item-highlight-foreground: #444;
+@submenu-item-show-submenu-background: linear-gradient(to bottom, #999, #666);
 
+/*
+ * Invisible padding around submenu to reduce chance of accidental mouse-leave
+ * events if cursor moves off menu
+ */
 @submenu-padding: 20px;
 
 @menu-z-index: 900;
+
+/* Colourful debugging for blocks and z-index */
+@debug-menu: false;
 
 .menu {
 	align-self: stretch;
 	overflow: visible;
 	z-index: @menu-z-index;
+	flex-wrap: nowrap;
 
 	&>.menu-item {
 		display: block;
@@ -27,34 +36,92 @@
 		padding: 1em 1.5em 1em;
 		cursor: pointer;
 		white-space: nowrap;
+		z-index: 2;
+
+		.icon+.caption {
+			margin-left: 0.5em;
+		}
+
+		&.show-submenu {
+			background: @menu-item-show-submenu-background;
+			z-index: 1;
+			&>.submenu {
+				display: block;
+			}
+		}
 
 		&.highlight {
 			background: @menu-item-highlight-background;
 			color: @menu-item-highlight-foreground;
 		}
 
-		&.show-submenu {
-			background: @menu-item-show-submenu-background;
-			&>.submenu {
-				display: block;
-			}
-		}
-	}
-
-	&.cols>.menu-item>.submenu {
-		left: -@submenu-padding;
-		top: calc(100% ~"-" @submenu-padding);
 	}
 }
 
-.submenu {
+/* Default submenu alignment */
+.menu {
+	&.cols>.menu-item>.submenu {
+		/* align-left, extend-bottom */
+		left: -@submenu-padding;
+		right: auto;
+		top: calc(100% ~"-" @submenu-padding);
+		bottom: auto;
+	}
+
+	&.rows>.menu-item>.submenu {
+		/* align-top, extend-right */
+		top: -@submenu-padding;
+		bottom: auto;
+		left: calc(100% ~"-" @submenu-padding);
+		right: auto;
+	}
+}
+
+.menu>.menu-item>.submenu {
 	position: absolute;
 	display: none;
-	z-index: @menu-z-index;;
 	background: transparent;
 	padding: @submenu-padding;
-	left: calc(100% ~"-" @submenu-padding);
-	top: -@submenu-padding;
+
+	&.align-left {
+		left: -@submenu-padding;
+		right: auto;
+	}
+
+	&.align-right {
+		left: auto;
+		right: calc(100% ~"+" @submenu-padding);
+	}
+
+	&, &.align-top {
+		top: -@submenu-padding;
+		bottom: auto;
+	}
+
+	&.align-bottom {
+		top: auto;
+		bottom: calc(100% ~"+" @submenu-padding);
+	}
+
+	&.extend-left {
+		left: auto;
+		right: @submenu-padding;
+	}
+
+	&, &.extend-right {
+		left: calc(100% ~"-" @submenu-padding);
+		right: auto;
+	}
+
+	&.extend-top {
+		top: auto;
+		bottom: @submenu-padding;
+	}
+
+	&.extend-bottom {
+		top: calc(100% ~"-" @submenu-padding);
+		bottom: auto;
+	}
 
 	&>.menu {
 		background: @submenu-background;
@@ -62,6 +129,10 @@
 		
 		&>.menu-item {
 			padding-right: 2em;
+
+			&.show-submenu {
+				background: @submenu-item-show-submenu-background;
+			}
 
 			&.highlight {
 				background: @submenu-item-highlight-background;
@@ -78,10 +149,36 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
-	z-index: ((@menu-z-index - 1));
+	z-index: ((@menu-z-index - 2));
 	background: rgba(0,0,0,0);
 
 	&.active {
 		display: block;
 	}
 }
+
+/*** Debugging ***/
+
+.debug-menu(@enabled) when (@enabled = true) {
+
+	.menu {
+		outline: 4px solid red;
+		background: rgba(255,0,0,0.2) !important;
+	}
+
+	.submenu {
+		outline: 4px solid blue;
+		background: rgba(0,0,255,0.2) !important;
+	}
+
+	.menu-item {
+		outline: 4px solid yellow;
+		background: rgba(255,255,0,0.2) !important;
+	}
+
+	#menu-input-blocker {
+		background: rgba(0,255,0,0.2) !important;
+	}
+}
+
+.debug-menu(@debug-menu);
