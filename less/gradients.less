@@ -1,0 +1,24 @@
+.function {
+	.nuweb-gradient(@start, @end, @invert: false, @split: 30%, @spread: 10%, @straightness: 100%) when (@invert = false) {
+		@scale: 100% + @straightness;
+		return: radial-gradient(circle at 50% ((-@straightness)),
+			@start 0%,
+			@start (( 100% * (@straightness + @split - @spread) / @scale )),
+			@end (( 100% * (@straightness + @split + @spread) / @scale )),
+			@end 100%);
+	}
+
+	.nuweb-gradient(@start, @end, @invert, @split: 30%, @spread: 10%, @straightness: 100%) when (@invert = true) {
+		@scale: 100% + @straightness;
+		return: radial-gradient(circle at 50% ((100% + @straightness)),
+			@start 0%,
+			@start (( 100% * (@straightness + @split - @spread) / @scale )),
+			@end (( 100% * (@straightness + @split + @spread) / @scale )),
+			@end 100%);
+	}
+
+	.split-gradient(@direction, @start, @end, @split: 50%, @spread: 10%) {
+		return: linear-gradient(@direction, @start 0%, @start ((@split - @spread)), @end ((@split + @spread)), @end 100%);
+	}
+
+}

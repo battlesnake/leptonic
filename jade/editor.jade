@@ -8,11 +8,11 @@ block main
 
 		- var toolbars = data.getToolbars(data.toolbars);
 
-		+toolbar(toolbars.top).cols#top-toolbar
+		+toolbar(toolbars.top).cols#editor-top-toolbar
 
 		.cols.nowrap.fluid
 
-			+toolbar(toolbars.left).rows#left-toolbar
+			+toolbar(toolbars.left).rows#editor-left-toolbar
 				li
 					a.ls.ls-plus
 				li
@@ -23,9 +23,9 @@ block main
 					svg#editor(viewBox='0 0 297 210', width='594px', height='420px')
 						text(x='0', y='0') Stuff goes here
 
-			+toolbar(toolbars.right).rows#right-toolbar
+			+toolbar(toolbars.right).rows#editor-right-toolbar
 
-		+toolbar(toolbars.bottom).cols#bottom-toolbar
+		+toolbar(toolbars.bottom).cols#editor-bottom-toolbar
 
 block footer
 	span Leptonic
