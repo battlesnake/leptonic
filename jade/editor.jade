@@ -4,15 +4,13 @@ include common/toolbar
 
 block main
 
-	.rows.nowrap.full-height.hide-toolbar-labels.hide-toolbar-hotkeys
+	.rows.nowrap.full-height
 
-		- var toolbars = data.getToolbars(data.toolbars);
-
-		+toolbar(toolbars.top).cols#editor-top-toolbar
+		+toolbar(toolbars.getByName('top')).cols#editor-top-toolbar
 
 		.cols.nowrap.fluid
 
-			+toolbar(toolbars.left).rows#editor-left-toolbar
+			+toolbar(toolbars.getByName('left')).rows#editor-left-toolbar
 				li
 					a.ls.ls-plus
 				li
@@ -23,9 +21,9 @@ block main
 					svg#editor(viewBox='0 0 297 210', width='594px', height='420px')
 						text(x='0', y='0') Stuff goes here
 
-			+toolbar(toolbars.right).rows#editor-right-toolbar
+			+toolbar(toolbars.getByName('right')).rows#editor-right-toolbar
 
-		+toolbar(toolbars.bottom).cols#editor-bottom-toolbar
+		+toolbar(toolbars.getByName('bottom')).cols#editor-bottom-toolbar
 
 block footer
 	span Leptonic

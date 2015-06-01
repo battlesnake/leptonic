@@ -1,0 +1,10 @@
+include icon
+
+mixin action(action)
+	li.action(data-action-name=action.name, tabindex = 0)&attributes(attributes)
+		if action.hotkey
+			code.hotkey= action.hotkey
+		if action.icon
+			+icon(action.icon)
+		if action.caption
+			a.caption= action.caption

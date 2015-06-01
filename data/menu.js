@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = [
 	{ caption: 'File', name: 'file', items: [
 		{ caption: 'New', name: 'new' },

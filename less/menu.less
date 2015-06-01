@@ -14,7 +14,7 @@
  * Invisible padding around submenu to reduce chance of accidental mouse-leave
  * events if cursor moves off menu
  */
-@submenu-padding: 20px;
+@submenu-padding: 10px;
 
 @menu-z-index: 900;
 
@@ -51,7 +51,7 @@
 			}
 		}
 
-		&.highlight {
+		&.highlight, &:focus {
 			background: @menu-item-highlight-background;
 			color: @menu-item-highlight-foreground;
 		}
@@ -127,7 +127,7 @@
 	&>.menu {
 		background: @submenu-background;
 		color: @submenu-foreground;
-		
+
 		&>.menu-item {
 			padding-right: 2em;
 

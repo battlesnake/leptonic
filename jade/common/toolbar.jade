@@ -1,10 +1,6 @@
+include action
+
 mixin toolbar(toolbar)
 	ul.fixed.toolbar&attributes(attributes)
-		each button in toolbar.buttons
-			li.toolbutton
-				if button.hotkey
-					code.hotkey= button.hotkey
-				if button.icon
-					a.icon(class='icon ls ls-' + button.icon)
-				if button.caption
-					a.caption= button.caption
+		each action in toolbar.actions.getActions()
+			+action(action).toolbutton

@@ -114,13 +114,13 @@
 			border-radius: @border-radius;
 			line-height: 1;
 
-			&:hover {
+			&:focus, &:hover, .focus {
 				background: @hover-background;
 				color: @hover-foreground;
 				border: @hover-border;
 			}
 
-			&:active {
+			&:active, .down {
 				background: @down-background;
 				color: @down-foreground;
 				border: @down-border;
@@ -140,7 +140,7 @@
 				line-height: 1;
 				vertical-align: middle;
 
-				&:hover {
+				&, &:focus, &:active, &:hover {
 					color: inherit;
 				}
 			}
@@ -151,7 +151,7 @@
 				bottom: @padding;
 				font-size: @hotkey-size;
 				font-family: 'Share Tech Mono', monospace;
-				font-weight: bold;
+				font-weight: 700;
 				white-space: pre;
 				line-height: 1;
 				padding: 0;
@@ -165,6 +165,7 @@
 				line-height: 1;
 				padding: 4px;
 				vertical-align: middle;
+				font-weight: 500;
 			}
 		}
 	}

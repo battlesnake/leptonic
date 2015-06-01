@@ -1,0 +1,33 @@
+module.exports = [
+	/* Editor modes */
+	{ name: 'insert-mode', icon: 'plus', caption: 'Insert mode', hotkey: 'i' },
+	{ name: 'select-mode', icon: 'select', caption: 'Select mode', hotkey: 's' },
+	{ name: 'command-mode', icon: 'command', caption: 'Command mode', hotkey: 'c' },
+	/* Test stuff */
+	{ name: 'box', icon: 'box', hotkey: 'b' },
+	{ name: 'circle', icon: 'circle', hotkey: 'c' },
+	{ name: 'corners', icon: 'corners', hotkey: 'x' },
+	{ name: 'r1', icon: null, caption: 'Right #1' },
+	{ name: 'r2', icon: null, caption: 'Right #2' },
+	{ name: 'r3', icon: null, caption: 'Right #3' },
+	{ name: 'b1', icon: null, caption: 'Bottom #1' },
+	{ name: 'b2', icon: null, caption: 'Bottom #2' },
+	{ name: 'b3', icon: null, caption: 'Bottom #3' },
+	/* Menu stuff */
+	{ name: 'file-new', icon: true, caption: 'New' },
+	{ name: 'file-open', icon: true, caption: 'Open...' },
+	{ name: 'file-save', icon: true, caption: 'Save' },
+	{ name: 'file-saveAs', icon: true, caption: 'Save As...' },
+	{ name: 'file-close', icon: true, caption: 'Close' },
+	{ name: 'edit-undo', icon: true, caption: 'Undo', hotkey: 'i_u' },
+	{ name: 'edit-redo', icon: true, caption: 'Redo', hotkey: 'i_U' },
+	{ name: 'edit-cut', icon: true, caption: 'Cut', hotkey: 'v_x' },
+	{ name: 'edit-copy', icon: true, caption: 'Copy', hotkey: 'v_y' },
+	{ name: 'edit-paste', icon: true, caption: 'Paste', hotkey: 'v_p' },
+	{ name: 'edit-delete', icon: true, caption: 'Delete', hotkey: 'v_d' },
+	{ name: 'view-captions', icon: false, caption: 'Captions' },
+	{ name: 'view-hotkeys', icon: false, caption: 'Hotkeys' },
+	{ name: 'view-size-large', icon: false, caption: 'Large interface' },
+	{ name: 'view-size-medium', icon: false, caption: 'Medium interface' },
+	{ name: 'view-size-small', icon: false, caption: 'Small interface' },
+];

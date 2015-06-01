@@ -1,6 +1,8 @@
-'use strict';
+var classes = require('./classes');
+var NamedList = classes.NamedList;
+var Page = classes.Page;
 
-module.exports = [
-	{ title: 'Leptonic', name: 'index', url: '/', nav: true },
-	{ title: 'Editor', name: 'editor', url: '/editor.html', nav: true }
-];
+module.exports = new NamedList([
+	new Page('index', 'Leptonic', '/'),
+	new Page('editor', 'Editor', '/editor.html')
+]);

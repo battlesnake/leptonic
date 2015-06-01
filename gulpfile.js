@@ -35,8 +35,8 @@ var config = module.exports = {
 			'**/@(tests|test|docs|doc)/**'
 		],
 		symbols: ['symbols/**/*.svg'],
-		data: ['data/**/*.js'],
-		images: ['data/*']
+		data: ['(classes|data)/**/*.js'],
+		images: ['images/*']
 	},
 	base64: {
 		enabled: true,
@@ -95,19 +95,23 @@ function symbolsTask() {
 /* Jade */
 
 function watchData() {
-	return gulp.watch(config.globs.data, ['jade']);
+	return gulp.watch(config.globs.data, ['invalidate-page-data', 'jade']);
+}
+
+gulp.task('invalidate-page-data', invalidatePageData);
+
+function invalidatePageData() {
+	delete require.cache[require.resolve('./data')];
 }
 
 function getPageData(file) {
 	var name = path.basename(file.path).replace(/\.jade$/i, '');
-	/* Reload data */
-	delete require.cache[require.resolve('./data')];
-	var pageData = require('./data');
-	var data = pageData({ name: name });
-	if (!data) {
+	var data = require('./data');
+	var pageData = _.extend({ page: data.pages.getByName(name) }, data);
+	if (!pageData.page) {
 		console.error('Failed to get view data for page "' + name + '" (' + file.path + ')');
 	}
-	return data || {};
+	return pageData;
 }
 
 /* Images */

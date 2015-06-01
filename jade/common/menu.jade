@@ -1,11 +1,16 @@
+include action
+
 mixin menu(items)
 	ul.menu&attributes(attributes)
 		each item in items
-			li.fixed.menu-item(data-name=item.name)
-				if item.icon
-					a(class='icon ls ls-' + item.icon)
-				if item.caption
-					a.caption= item.caption
-				if item.items
-					.submenu
-						+menu(item.items)(class=item.direction==='horizontal'?'cols':'rows')
+			if item.action
+				+action(item.action).fixed.menu-item
+			else
+				li.fixed.menu-item(tabindex=0)
+					if item.icon
+						+icon(item.icon)
+					if item.caption
+						a.caption= item.caption
+					if item.items
+						.submenu
+							+menu(item.items)(class=item.direction==='horizontal'?'cols':'rows')
