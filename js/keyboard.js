@@ -110,14 +110,12 @@ var lastKeyDown = null;
 /*
  * Receives key events from the window and dispatches to handlers
  *
- * If the callback returns truthy, then the event processor continues looking
- * for handlers that can accept the event (i.e. which are bound to the element
+ * If the callback returns 'continue', then the event processor continues
+ * looking for handlers that can accept the event (i.e. which are bound to the element
  * or it's ancestors).
  *
- * If the callback returns falsy or the callback itself is falsy, the event is
- * not propagated to parents or to other handlers on this element.
- *
- * i.e. if the callback does not return true, the event is consumed.
+ * If the callback returns 'consume' or the callback itself is falsy, the event
+ * is not propagated to parents or to other handlers on this element.
  *
  * If the callback returns 'stop', then no more handlers are processed, but the
  * event will not be consumed, so the browser can still handle it.
@@ -129,7 +127,7 @@ function receiveKey(event) {
 	if (!code) {
 		return;
 	}
-	var type = event.type; 
+	var type = event.type;
 	var target = event.target;
 	var data = {
 		state: event.type.replace(/^key/, ''),
@@ -179,16 +177,16 @@ function dispatchEvent(data, event) {
 		}
 		/* If element is or is parent of target, notify it */
 		if (data.element.hasParent(element, true) && filter(data, event)) {
-			var action = handler && handler(data, event);
-			if (!action || action === 'consume') {
-				/* Falsy or 'consume': Consume the input (browser won't handle it) */
+			var action = handler ? handler(data, event) : 'consume';
+			if (action === 'consume') {
+				/* Stop processing, don't pass to browser */
 				event.preventDefault();
 				return;
 			} else if (action === 'stop') {
-				/* Action is "stop": stop processing event, let browser handle it */
+				/* Stop processing, pass to browser */
 				return;
-			} else if (action === true || action === 'continue') {
-				/* nothing */
+			} else if (action === 'continue') {
+				/* Keep processing */
 			} else {
 				throw new Error('Invalid keyboard event action: "' + action + '"');
 			}
@@ -273,6 +271,7 @@ function demo() {
 				return '<li>' + s + '</li>';
 			}).join('') + '</ol>';
 			document.body.innerHTML = html;
+			return 'consume';
 		},
 		onKey.filters.notBrowser
 	);
