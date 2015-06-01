@@ -17,26 +17,28 @@
 	}
 }
 
+@toolbar-base-darken: 30%;
+@toolbar-contrast: 5%;
+@toolbutton-base-darken: 10%;
+@toolbutton-contrast: 5%;
+
+.editor-toolbar-theme(@base, @bar-darken: 30%, @bar-contrast: 5%, @button-darken: 10%, @button-contrast: 10%) {
+	.toolbar-theme(@base: darken(@base, @bar-darken), @contrast: @bar-contrast);
+	.toolbutton-theme(@base: darken(@base, @button-darken), @contrast: @button-contrast);
+}
+
 #editor-top-toolbar {
-	@base: #caa;
-	.toolbar-theme(@base: darken(@base, 30%), @contrast: 5%);
-	.toolbutton-theme(@base: @base);
+	.editor-toolbar-theme(#caa);
 }
 
 #editor-left-toolbar {
-	@base: #aac;
-	.toolbar-theme(@base: darken(@base, 30%), @contrast: 5%);
-	.toolbutton-theme(@base: @base);
+	.editor-toolbar-theme(#aac);
 }
 
 #editor-right-toolbar {
-	@base: #aca;
-	.toolbar-theme(@base: darken(@base, 30%), @contrast: 5%);
-	.toolbutton-theme(@base: @base);
+	.editor-toolbar-theme(#aca);
 }
 
 #editor-bottom-toolbar {
-	@base: #ddb;
-	.toolbar-theme(@base: darken(@base, 30%), @contrast: 5%);
-	.toolbutton-theme(@base: @base);
+	.editor-toolbar-theme(#ddb);
 }

@@ -1,8 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
-var watch = require('gulp-watch');
 var _ = require('lodash');
+var path = require('path');
 
 var dependencies = _.assign({},
 	require('./package.json').dependencies,
@@ -10,7 +10,8 @@ var dependencies = _.assign({},
 );
 
 var config = module.exports = {
-	extraTasks: ['symbols', 'images'],
+	extraBuildTasks: ['symbols', 'images'],
+	extraWatchTasks: [watchSymbols, watchData, watchImages],
 	paths: {
 		out: 'out'
 	},
@@ -32,7 +33,10 @@ var config = module.exports = {
 		],
 		npmAssetsExclude: [
 			'**/@(tests|test|docs|doc)/**'
-		]
+		],
+		symbols: ['symbols/**/*.svg'],
+		data: ['data/**/*.js'],
+		images: ['data/*']
 	},
 	base64: {
 		enabled: true,
@@ -58,9 +62,11 @@ var rename = require('gulp-rename');
 
 gulp.task('symbols', symbolsTask);
 
-var symbolsWatcher;
+function watchSymbols() {
+	return gulp.watch(config.globs.symbols, ['symbols']);
+}
+
 function symbolsTask() {
-	symbolsWatcher = symbolsWatcher || watch('symbols/**/*.svg', ['symbols']);
 	var opts = {
 		fontName: 'leptonic-symbols',
 		normalize: true,
@@ -68,7 +74,7 @@ function symbolsTask() {
 //		centerHorizontally: true,
 		descent: 0
 	};
-	return gulp.src('symbols/**/*.svg')
+	return gulp.src(config.globs.symbols)
 		.pipe(iconFont(opts))
 		.on('codepoints', onCodepoints)
 		.pipe(gulp.dest(config.paths.out));
@@ -88,7 +94,9 @@ function symbolsTask() {
 
 /* Jade */
 
-var path = require('path');
+function watchData() {
+	return gulp.watch(config.globs.data, ['jade']);
+}
 
 function getPageData(file) {
 	var name = path.basename(file.path).replace(/\.jade$/i, '');
@@ -106,8 +114,12 @@ function getPageData(file) {
 
 gulp.task('images', imagesTask);
 
+function watchImages() {
+	return gulp.watch(config.globs.images, ['images']);
+}
+
 function imagesTask() {
-	return gulp.src('images/*', { buffer: false })
+	return gulp.src(config.globs.images, { buffer: false })
 		.pipe(gulp.dest(config.paths.out))
 		;
 }

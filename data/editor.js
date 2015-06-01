@@ -3,8 +3,9 @@
 var _ = require('lodash');
 
 var buttons = [
-	{ name: 'insert-mode', icon: 'plus', hotkey: 'i' },
-	{ name: 'delete-mode', icon: 'minus', hotkey: 'd' },
+	{ name: 'insert-mode', icon: 'plus', caption: 'Insert mode', hotkey: 'i' },
+	{ name: 'select-mode', icon: 'select', caption: 'Select mode', hotkey: 's' },
+	{ name: 'command-mode', icon: 'command', caption: 'Command mode', hotkey: 'c' },
 	{ name: 'box', icon: 'box', hotkey: 'b' },
 	{ name: 'circle', icon: 'circle', hotkey: 'c' },
 	{ name: 'corners', icon: 'corners', hotkey: 'x' },
@@ -17,7 +18,7 @@ var buttons = [
 ];
 
 var toolbars = [
-	{ name: 'top', buttons: ['insert-mode', 'delete-mode'] },
+	{ name: 'top', buttons: ['insert-mode', 'select-mode', 'command-mode'] },
 	{ name: 'left', buttons: ['box', 'circle', 'corners'] },
 	{ name: 'right', buttons: ['r1', 'r2', 'r3'] },
 	{ name: 'bottom', buttons: ['b1', 'b2', 'b3'] }

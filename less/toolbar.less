@@ -48,27 +48,27 @@
 .toolbutton-theme(
 	@base: #888,
 	@contrast: 10%,
-	@size: 32px,
+	@icon-size: 3.2rem,
+	@label-size: 1.4rem,
+	@hotkey-size: 1.4rem,
+	@padding: 4px,
 	@margin: 2px,
-	@border-radius: 0,
-	@icon-padding: 6px
+	@spacing: 4px,
+	@border-radius: 0
 ) {
 	/* Button colours */
 	@dark: darken(@base, @contrast);
 	@light: lighten(@base, @contrast);
-	@darker: darken(@base, @contrast*2);
-	@lighter: lighten(@base, @contrast*2);
-	@darkest: darken(@base, @contrast*3);
-	@lightest: lighten(@base, @contrast*3);
+	@darker: darken(@base, (@contrast*2));
+	@lighter: lighten(@base, (@contrast*2));
+	@darkest: darken(@base, (@contrast*3));
+	@lightest: lighten(@base, (@contrast*3));
 	/* Button geometry */
 	@border-size: 1px;
-	@icon-size: ((@size - 2*@icon-padding));
-	@label-size: inherit;
-	@hotkey-size: 14px;
 	/* Button normal style */
-	@foreground: @lighter;
-	@background: nuweb-gradient(@dark, @darker);
-	@border: @border-size solid @dark;
+	@normal-foreground: @lightest;
+	@normal-background: nuweb-gradient(@dark, @darker);
+	@normal-border: @border-size solid @dark;
 	/* Button hover style */
 	@hover-foreground: @lightest;
 	@hover-background: nuweb-gradient(@base, @dark);
@@ -78,47 +78,41 @@
 	@down-background: nuweb-gradient(@darkest, @darker);
 	@down-border: @border-size solid @dark;
 
-	/* More calculated geometry */
-	@inner-size: ((@size - 2 * @border-size));
-	@icon-offset: (((@inner-size - @icon-size) / 2));
-	@hotkey-offset: (((@inner-size - @hotkey-size) / 2));
+	/* Calculated geometry */
+	@button-size: @icon-size + 2 * (@padding + @border-size);
 
 	&.toolbar {
 
 		&.rows>.toolbutton {
-			width: @size;
+			width: calc(@button-size);
 
-			&>.hotkey {
-				display: inline-block;
-				width: @inner-size;
-				text-align: center;
-				margin: 4px 0;
+			.icon+.caption {
+				margin-top: @spacing;
 			}
 		}
 
 		&.cols>.toolbutton {
-			height: @size;
+			height: calc(@button-size);
 
-			&>.hotkey {
-				display: block;
-				float: left;
-				height: @inner-size;
-				padding-top: @hotkey-offset;
-				margin: 0 4px;
+			.icon+.caption {
+				position: relative;
+				margin-left: @spacing;
 			}
 		}
 
 		.toolbutton {
-			min-width: @size;
-			min-height: @size;
-			flex: 0 0 auto;
-			background: @background;
-			color: @foreground;
-			border: @border;
-			margin: @margin;
-			cursor: pointer;
 			position: relative;
+			min-width: calc(@button-size);
+			min-height: calc(@button-size);
+			flex: 0 0 auto;
+			background: @normal-background;
+			color: @normal-foreground;
+			border: @normal-border;
+			margin: @margin;
+			padding: @padding;
+			cursor: pointer;
 			border-radius: @border-radius;
+			line-height: 1;
 
 			&:hover {
 				background: @hover-background;
@@ -132,14 +126,19 @@
 				border: @down-border;
 			}
 
+			&>* {
+				color: inherit;
+				line-height: 1;
+				background: none;
+			}
+
 			.icon {
 				display: inline-block;
-				padding-top: @icon-offset;
-				padding-left: @icon-offset;
-				width: @inner-size;
-				height: @inner-size;
-				font-size: ((@icon-size));
+				font-size: @icon-size;
+				width: @icon-size;
+				height: @icon-size;
 				line-height: 1;
+				vertical-align: middle;
 
 				&:hover {
 					color: inherit;
@@ -147,17 +146,25 @@
 			}
 
 			.hotkey {
-				font-family: 'Share Tech Mono', monospace;
-				white-space: pre;
+				position: absolute;
+				right: @padding;
+				bottom: @padding;
 				font-size: @hotkey-size;
+				font-family: 'Share Tech Mono', monospace;
+				font-weight: bold;
+				white-space: pre;
 				line-height: 1;
 				padding: 0;
+				color: black;
+				text-shadow: 0px 0px 1px white, 0px 0px 1px white, 0px 0px 1px white, 0px 0px 1px white;
 			}
 
 			.caption {
+				display: inline-block;
 				font-size: @label-size;
 				line-height: 1;
 				padding: 4px;
+				vertical-align: middle;
 			}
 		}
 	}
@@ -167,5 +174,5 @@
 .hide-toolbar-icons .toolbutton>.icon,
 .hide-toolbar-all-labels .toolbutton>.label,
 .hide-toolbar-labels .toolbutton>.icon+.label {
-	display: none !important;
+//	display: none !important;
 }

@@ -4,12 +4,12 @@ HTMLElement.prototype.hasParent = hasParent;
 HTMLElement.prototype.getParents = getParents;
 HTMLElement.prototype.findAll = findAll;
 HTMLElement.prototype.find = find;
+HTMLElement.prototype.getLevel = getLevel;
 
 function hasParent(parent, includeSelf) {
 	var test = includeSelf ? this : this.parentElement;
 	while (test) {
 		if (test === parent) {
-			console.log('PARENT', parent, this);
 			return true;
 		}
 		test = test.parentElement;
@@ -39,4 +39,12 @@ function findAll(selector) {
 		selector = ':scope ' + selector;
 	}
 	return [].slice.apply(this.querySelectorAll(selector));
+}
+
+function getLevel() {
+	var level = 0;
+	for (var element = this; element; element = element.parentElement) {
+		level++;
+	}
+	return level;
 }
