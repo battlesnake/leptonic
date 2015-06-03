@@ -2,7 +2,7 @@ var _ = require('lodash');
 var input = require('./input');
 var UiElement = require('./ui-element');
 
-var hoverOptions = { enterDelay: 150, leaveDelay: NaN };
+var hoverOptions = { enterDelay: 400, leaveDelay: NaN };
 
 module.exports = Menu;
 
@@ -58,11 +58,13 @@ function MenuItem(menu, element, onSelect) {
 			return 'continue';
 		}
 		if (data.code === 'Escape') {
-			if (self.menu.parent) {
+			if (getSubmenuState()) {
+				closeSubmenu();
+			} else  if (self.menu.parent) {
 				self.menu.parent.closeSubmenu();
 				self.menu.parent.focus();
 			} else {
-				closeSubmenu();
+				self.blur();
 			}
 			return 'consume';
 		}
@@ -72,10 +74,14 @@ function MenuItem(menu, element, onSelect) {
 		}
 		if (data.code === ' ') {
 			toggleSubmenu();
-			if (!getSubmenuState() && self.hasSubmenu) {
-				if (self.submenu.items.length) {
-					self.submenu.items[0].focus();
+			if (self.hasSubmenu) {
+				if (getSubmenuState()) {
+					if (self.submenu.items.length) {
+						self.submenu.items[0].focus();
+					}
 				}
+			} else {
+				select();
 			}
 			return 'consume';
 		}
@@ -104,9 +110,9 @@ function MenuItem(menu, element, onSelect) {
 	function onEnterLeave(event, over) {
 		element.classList.toggle('highlight', over);
 		if (over) {
-			this.focus();
+			self.focus();
 		} else {
-			this.blur();
+			self.blur();
 		}
 	}
 
@@ -142,6 +148,7 @@ function MenuItem(menu, element, onSelect) {
 		} else {
 			element.classList.remove('show-submenu');
 		}
+		self.focus();
 	}
 
 	function getSubmenuState() {
@@ -150,7 +157,7 @@ function MenuItem(menu, element, onSelect) {
 
 	function select() {
 		if (self.hasSubmenu) {
-			toggleSubmenu();
+			openSubmenu();
 		} else {
 			setActiveMenu(null);
 			if (onSelect) {

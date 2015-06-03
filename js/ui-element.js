@@ -39,6 +39,8 @@ UiElement.get = get;
 UiElement.tryGet = tryGet;
 UiElement.isWrapped = isWrapped;
 
+var input = require('./input');
+
 window.addEventListener('DOMContentLoaded', wrapBody);
 
 function wrapBody() {
@@ -90,14 +92,16 @@ function UiElement(element, canFocus) {
 	if (element[domReferenceName] || element instanceof UiElement) {
 		throw new Error('Attempted to double-wrap object');
 	}
-	this.element = element;
-	element[domReferenceName] = this;
-	this.canFocus = !!canFocus;
+	var self = this;
+	self.element = element;
+	element[domReferenceName] = self;
+	self.canFocus = !!canFocus;
 	if (canFocus) {
 		element.tabIndex = 0;
+		input.onTap(element, function (event) { self.focus(); });
 	}
-	this.name = element.dataset.name;
-	this.actionName = element.dataset.actionName;
+	self.name = element.dataset.name;
+	self.actionName = element.dataset.actionName;
 }
 
 function focus() {
