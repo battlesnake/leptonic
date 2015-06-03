@@ -24,13 +24,12 @@ html(lang='en').full-height.full-width.no-scroll
 	body.rows.nowrap.stretch-items.full-height.full-width.no-scroll
 
 		header#header.fixed
-			include nav
 			block header
 
 		script(type='text/javascript', src='vendor.js')
 		script(type='text/javascript', src='client.js')
 
-		#main.fluid.relative
+		main#main.fluid.relative
 			block main
 
 		footer#footer.fixed.cols.nowrap

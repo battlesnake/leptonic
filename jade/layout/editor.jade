@@ -1,6 +1,11 @@
-extends common/layout
+extends layout
 
-include common/toolbar
+include ../component/menu
+include ../component/toolbar
+
+block header
+	nav.cols#navbar
+		+menu(menus.getByName('main')).wrap#main-menu
 
 block main
 
@@ -11,22 +16,17 @@ block main
 		.cols.nowrap.fluid
 
 			+toolbar(toolbars.getByName('left')).rows#editor-left-toolbar
-				li
-					a.ls.ls-plus
-				li
-					a.ls.ls-minus
 
 			#editor-size-limiter.relative.no-scroll.grow.shrink
 				#editor-container.scroll.fill-offset-parent
-					svg#editor(viewBox='0 0 297 210', width='594px', height='420px')
-						text(x='0', y='0') Stuff goes here
+					block canvas
 
 			+toolbar(toolbars.getByName('right')).rows#editor-right-toolbar
 
 		+toolbar(toolbars.getByName('bottom')).cols#editor-bottom-toolbar
 
 block footer
-	span Leptonic
-	span.fluid Schematics editor
-	span Mark K Cowan
-	span mark@battlesnake.co.uk
+	span.status-left Leptonic
+	span.status-main.fluid Schematics editor
+	span.status-right Mark K Cowan
+	span.status-rightmost mark@battlesnake.co.uk

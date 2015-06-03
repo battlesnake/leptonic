@@ -4,5 +4,5 @@ var Page = classes.Page;
 
 module.exports = new NamedList([
 	new Page('index', 'Leptonic', '/'),
-	new Page('editor', 'Editor', '/editor.html')
+	new Page('schematic', 'Schematic', '/schematic.html')
 ]);
