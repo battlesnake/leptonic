@@ -3,11 +3,11 @@ var NamedList = require('./named-list');
 
 module.exports = ActionList;
 
-ActionList.prototype = new NamedList();
+ActionList.prototype = [];
 ActionList.prototype.getActions = getActions;
 
 /*
- * Inherites from NamedList which inherits from Array.
+ * Inherites from Array.
  *
  * Stores a reference to an action actionRepository.
  * The array content is an array of names of actions from the actionRepository.

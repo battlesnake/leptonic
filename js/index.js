@@ -1,12 +1,21 @@
-var Menu = require('./menu');
+var changeCase = require('change-case');
+var _ = require('lodash');
 
+var UiElement = require('./ui-element');
+var Menu = require('./menu');
 
 window.addEventListener('DOMContentLoaded', initMenu);
 
+var menus = {};
+
 function initMenu() {
-	var mainMenu = new Menu(document.getElementById('main-menu'), mainMenuSelect);
+	_.each(UiElement.body.findMany('.menu'), function (element) {
+		var name = changeCase.camel(element.dataset.name);
+		menus[name] = UiElement.tryGet(element) || new Menu(element, menuSelect);
+	});
+	var mainMenu = menus.main;
 }
 
-function mainMenuSelect(el) {
-	alert(el.dataset.name);
+function menuSelect(item) {
+	alert(item.actionName);
 }

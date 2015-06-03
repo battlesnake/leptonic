@@ -1,16 +1,6 @@
 include action
 
-mixin menu(items)
-	ul.menu&attributes(attributes)
-		each item in items
-			if item.action
-				+action(item.action).fixed.menu-item
-			else
-				li.fixed.menu-item(tabindex=0)
-					if item.icon
-						+icon(item.icon)
-					if item.caption
-						a.caption= item.caption
-					if item.items
-						.submenu
-							+menu(item.items)(class=item.direction==='horizontal'?'cols':'rows')
+mixin menu(menu)
+	ul.menu&attributes(attributes)(class = menu.direction === 'horizontal' ? 'cols' : 'rows', data-name = menu.name)
+		each action in menu.actions.getActions()
+			+action(action).fixed.menu-item

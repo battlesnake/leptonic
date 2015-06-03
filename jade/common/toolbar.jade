@@ -1,6 +1,6 @@
 include action
 
 mixin toolbar(toolbar)
-	ul.fixed.toolbar&attributes(attributes)
+	ul.fixed.toolbar&attributes(attributes)(data-name = toolbar.name)
 		each action in toolbar.actions.getActions()
 			+action(action).toolbutton

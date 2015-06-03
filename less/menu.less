@@ -46,9 +46,6 @@
 		&.show-submenu {
 			background: @menu-item-show-submenu-background;
 			z-index: 1;
-			&>.submenu {
-				display: block;
-			}
 		}
 
 		&.highlight, &:focus {
@@ -56,6 +53,27 @@
 			color: @menu-item-highlight-foreground;
 		}
 
+	}
+
+	&.cols>.menu-item {
+		&>.hotkey {
+			display: none;
+		}
+
+		&>.action-menu-icon {
+			display: none;
+		}
+	}
+
+	&.rows>.menu-item {
+		&>.hotkey {
+			display: none;
+		}
+
+		&>.action-menu-icon {
+			position: relative;
+			left: 1em;
+		}
 	}
 }
 
@@ -78,7 +96,11 @@
 	}
 }
 
-.menu>.menu-item>.submenu {
+.show-submenu>.submenu {
+	display: block;
+}
+
+.submenu {
 	position: absolute;
 	display: none;
 	background: transparent;

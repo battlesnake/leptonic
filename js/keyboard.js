@@ -1,10 +1,12 @@
-var dom = require('./dom');
 var _ = require('lodash');
+var UiElement = require('./ui-element');
+var arithmetic = require('dslap').parsers.arithmetic;
 
 module.exports = {
 	onKey: onKey
 };
 
+/* Map keys (null to ignore key) */
 var keyMappings = {
 	'AltGraph': 'Meta',
 	'Alt': 'Meta',
@@ -14,8 +16,14 @@ var keyMappings = {
 	'': null
 };
 
+/* Map modifiers */
 var modMappings = {
 	'alt': 'meta'
+};
+
+/* Map resulting key code strings */
+var codeMappings = {
+	'C-[': 'Escape'
 };
 
 var filters = {
@@ -24,8 +32,13 @@ var filters = {
 	alt: function (data, event) { return /A-/.test(data.code); },
 	meta: function (data, event) { return /M-/.test(data.code); },
 	shift: function (data, event) { return /S-/.test(data.code); },
-	browser: function (data, event) { return /F[45]$|C-t$|Tab$|Page/.test(data.code); },
+	space: function (data, event) { return data.code === ' '; },
+	enter: function (data, event) { return data.code === 'Enter'; },
+	escape: function (data, event) { return data.code === 'Escape'; },
+	arrow: function (data, event) { return /Arrow(Left|Up|Right|Down)$/.test(data.code); },
+	browser: function (data, event) { return /(F[45]|C-[wt]|Tab)$/.test(data.code); },
 	modifier: function (data, event) { return /(Control|Meta|Alt|Shift)$/.test(data.code); },
+	modified: function (data, event) { return /[SCAM]-/.test(data.code); }
 };
 
 onKey.mappings = {
@@ -53,7 +66,7 @@ window.addEventListener('keyup', receiveKey);
  *
  * See documentation for receiveKey.
  *
- * callback: ({ type, code, key, element}, event)
+ * callback: ({ type, code, key, element }, event)
  *
  *  * type: 'down' | 'up' | 'press'
  *  * code: vim style code (e.g M-F4, C-t)
@@ -61,17 +74,16 @@ window.addEventListener('keyup', receiveKey);
  *  * element: target element
  *
  */
-function onKey(element, handler, filterNames) {
-	var filters = (filterNames || '!browser')
-		.split(/,?\s+/g)
-		.map(getFilter);
-	var i, level = element.getLevel();
+function onKey(element, handler, filterExpression, directOnly) {
+	var i, level = UiElement.getLevel(element);
 	for (i = 0; i < handlers.length; i++) {
-		if (handlers[i].element.getLevel() <= level) {
+		var trial = handlers[i], trialLevel = UiElement.getLevel(trial.element);
+		if (level > trialLevel ||
+			(level === trialLevel && (directOnly || !trial.directOnly))) {
 			break;
 		}
 	}
-	handlers.splice(i, 0, { element: element, handler: handler, filter: filter });
+	handlers.splice(i, 0, { element: element, callback: handler, filter: parseFilters(filterExpression), direct: directOnly });
 	return;
 
 	function filter() {
@@ -82,22 +94,31 @@ function onKey(element, handler, filterNames) {
 	}
 }
 
-/* Get a filter by name, e.g. all, ctrl, !alt */
-function getFilter(name) {
-	var not = name.charAt(0) === '!';
-	if (not) {
-		name = name.substr(1);
+function parseFilters(filterExpression) {
+	var evaluators;
+	try {
+		var evaluator = arithmetic(filterExpression);
+		return executeFilter;
+	} catch(e) {
+		throw new Error('Invalid filter expression: "' + filterExpression + '"\nError: ' + e.message);
 	}
-	var filter = filters[name];
-	if (!filter) {
-		throw new Error('Keyboard input filter "' + name + '" not found');
-	}
-	if (not) {
-		return function () {
-			return !filter.apply(null, arguments);
-		};
-	} else {
-		return filter;
+
+	function executeFilter(data, event) {
+		var scope = {};
+		_.each(filters, bindFilter);
+		try {
+			return evaluator(scope);
+		} catch (e) {
+			throw new Error('Invalid filter expression: "' + filterExpression + '"\nError: ' + e.message);
+		}
+
+		function bindFilter(func, name) {
+			Object.defineProperty(scope, name, { get: getter, enumerable: true });
+
+			function getter() {
+				return func(data, event);
+			}
+		}
 	}
 }
 
@@ -168,16 +189,18 @@ function dispatchEvent(data, event) {
 	var invalidHandlers = [];
 	/* Iterate over handlers */
 	for (var i = 0; i < handlers.length; i++) {
-		var handler = handlers[i].handler;
-		var element = handlers[i].element;
-		var filter = handlers[i].filter;
+		var handler = handlers[i];
+		var callback = handler.callback;
+		var element = handler.element;
+		var filter = handler.filter;
+		var direct = handler.direct;
 		/* Mark invalid handlers (element not in DOM) for removal */
 		if (!document.body.contains(element)) {
 			invalidHandlers.push(i);
 		}
 		/* If element is or is parent of target, notify it */
-		if (data.element.hasParent(element, true) && filter(data, event)) {
-			var action = handler ? handler(data, event) : 'consume';
+		if ((data.element === element || !direct && UiElement.hasParent(data.element, element)) && filter(data, event)) {
+			var action = callback ? callback(data, event) : 'consume';
 			if (action === 'consume') {
 				/* Stop processing, don't pass to browser */
 				event.preventDefault();
@@ -219,9 +242,10 @@ function keyCodeStr(event) {
 	var ctrl = mods.ctrl && key !== 'Control';
 	var shift = mods.shift && key !== 'Shift';
 	/* Order of modifiers: SCAM */
-	return [shift && 'S', ctrl && 'C', alt && 'A', meta && 'M', key]
+	var code = [shift && 'S', ctrl && 'C', alt && 'A', meta && 'M', key]
 		.filter(function (s) { return !!s; })
 		.join('-');
+	return getCode(code, codeMappings);
 }
 
 /* Map key */
@@ -255,6 +279,14 @@ function getMods(event, mappings) {
 	return mods;
 }
 
+function getCode(code, mappings) {
+	if (code in mappings) {
+		return mappings[code];
+	} else {
+		return code;
+	}
+}
+
 function demo() {
 	var log = [];
 	onKey(document.body,
@@ -273,6 +305,6 @@ function demo() {
 			document.body.innerHTML = html;
 			return 'consume';
 		},
-		onKey.filters.notBrowser
+		'!browser'
 	);
 }

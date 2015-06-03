@@ -70,8 +70,6 @@ function symbolsTask() {
 	var opts = {
 		fontName: 'leptonic-symbols',
 		normalize: true,
-//		fixedWidth: true,
-//		centerHorizontally: true,
 		descent: 0
 	};
 	return gulp.src(config.globs.symbols)
